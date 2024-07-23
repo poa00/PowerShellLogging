@@ -4,17 +4,29 @@ on:
   
 jobs:
   build:
-    name: Build Module
+    name: BuildModule
     runs-on: windows-latest
     
     steps:
-      - name: Check out repository
+      - name: powershell
+        uses: cakhanif/action-install-powershell@v1
+
+      - name: SetupGitVersion
+        uses: StanleyGoldman/setup-gitversion@v1.0.1
+          
+      - name: Checkout-repo
         uses: actions/checkout@v3
       
-      - name: Install powershell
-        uses: cakhanif/action-install-powershell@v1
- 
-      - name: PowerShell script
-        uses: Amadevus/pwsh-script@v2.0.3
+      - name: script
+      - id: package
+        shell: pwsh
+        run: .\Build.ps1 -Version $(gitversion -showvariable nugetversion)
+
+      - name: release 
+        uses: actions/upload-artifact@v2
         with:
-          script: Build.ps1
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: Module/PowerShellLogging/*.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
