@@ -23,11 +23,10 @@ jobs:
         run: .\Build -Version $(dotnet-gitversion -showvariable SemVer)
 
       - name: release 
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          path: Module/PowerShellLogging/
-          file: Module/PowerShellLogging/*.zip
+          path: Module/PowerShellLogging/*.zip
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
