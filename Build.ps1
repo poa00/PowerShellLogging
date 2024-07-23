@@ -27,3 +27,4 @@ dotnet build -c Release -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$Versio
 
 Get-ChildItem bin/Release -recurse -filter *.dll |
     Move-Item -Destination $OutputDirectory\
+    Compress-Archive -Path $OutputDirectory\ $OutputDirectory'.zip'
