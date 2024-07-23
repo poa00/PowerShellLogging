@@ -26,6 +26,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          path: Module/PowerShellLogging/
           file: Module/PowerShellLogging/*.zip
           tag: ${{ github.ref }}
           overwrite: true
