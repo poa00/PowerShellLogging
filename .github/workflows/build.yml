@@ -8,9 +8,6 @@ jobs:
     runs-on: windows-latest
     
     steps:
-      - name: powershell
-        uses: cakhanif/action-install-powershell@v1
-
       - name: SetupGitVersion
         uses: StanleyGoldman/setup-gitversion@v1.0.1
           
@@ -19,7 +16,7 @@ jobs:
       
       - name: script
         shell: pwsh
-        run: .\Build.ps1 -Version $(gitversion -showvariable nugetversion)
+        run: .\Build -Version $(gitversion -showvariable nugetversion)
 
       - name: release 
         uses: actions/upload-artifact@v2
