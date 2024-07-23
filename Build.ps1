@@ -5,7 +5,8 @@ param(
 
     # The output folder (defaults to the version number)
     $OutputDirectory = $("$PSScriptRoot\$(($Version -split '[-+]',2)[0])"),
-
+    Write-Host "$OutputDirectory"
+    
     # If set, removes the output folder without prompting!
     [switch]$Force
 )
@@ -16,7 +17,7 @@ if (Test-Path $OutputDirectory) {
     Remove-Item $OutputDirectory -Recurse -Confirm:(!$Force)
 }
 
-Copy-Item $PSScriptRoot\Module\PowerShellLogging -Destination $OutputDirectory -recurse
+Copy-Item $PSScriptRoot\Module\PowerShellLogging -Destination $OutputDirectory -Recurse -Force
 Set-Content $OutputDirectory\PowerShellLogging.psd1 (
     (Get-Content $OutputDirectory\PowerShellLogging.psd1) -replace
         "(ModuleVersion\s+=\s+)'.*'", "`$1'$VersionPrefix'" -replace
@@ -25,6 +26,6 @@ Set-Content $OutputDirectory\PowerShellLogging.psd1 (
 
 dotnet build -c Release -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix
 
-Get-ChildItem bin/Release -recurse -filter *.dll |
-    Move-Item -Destination $OutputDirectory\
-    Compress-Archive -Path $OutputDirectory\ $OutputDirectory'.zip'
+Get-ChildItem bin\Release -Recurse -filter *.dll | Move-Item -Destination $OutputDirectory | Out-Host
+$Outcome = Get-ChildItem $OutputDirectory -Recurse | Out-Null
+Write-Host: "Build files include: $Outcome"
