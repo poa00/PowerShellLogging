@@ -20,7 +20,7 @@ jobs:
 
       - name: script
         shell: pwsh
-        run: .\Build -Version $(dotnet-gitversion -showvariable nugetversion)
+        run: .\Build -Version $(dotnet-gitversion -showvariable SemVer)
 
       - name: release 
         uses: actions/upload-artifact@v2
