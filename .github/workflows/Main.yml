@@ -26,7 +26,7 @@ jobs:
         run: |
           $VersionPrefix = "1.4.0"
           $VersionSuffix = "rc1-00001"
-          $OutputDirectory = New-Item -Path $RUNNER_TEMP -Name "v1.4.0" -ItemType directory  
+          $OutputDirectory = New-Item -Path $env:RUNNER_TEMP -Name "v1.4.0" -ItemType directory  
           Copy-Item -Path "D:\a\PowerShellLogging\PowerShellLogging\Module\PowerShellLogging" -Destination $OutputDirectory -Recurse -Force          
           Set-Content $OutputDirectory\PowerShellLogging.psd1 (
             (Get-Content $OutputDirectory\PowerShellLogging.psd1) -replace
