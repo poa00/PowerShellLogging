@@ -4,12 +4,13 @@ param(
     $Version = $(gitversion -showvariable nugetversion),
 
     # The output folder (defaults to the version number)
-    $OutputDirectory = $("$PSScriptRoot\$(($Version -split '[-+]',2)[0])")
-    Write-Host "$OutputDirectory"
-    
+    $OutputDirectory = $("$PSScriptRoot\$(($Version -split '[-+]',2)[0])"),
+
     # If set, removes the output folder without prompting!
     [switch]$Force
 )
+
+Write-Host $OutputDirectory
 
 $VersionPrefix, $VersionSuffix = $Version -split '[-+]', 2
 
@@ -27,7 +28,7 @@ Set-Content $OutputDirectory\PowerShellLogging.psd1 (
 dotnet build -c Release -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix
 
 Get-ChildItem bin\Release -Recurse -filter *.dll | Move-Item -Destination $OutputDirectory
-$PackagedRelease = Compress-Archive -Path $OutputDirectory $version'.zip'
+$PackagedRelease = Compress-Archive -Path $OutputDirectory\ $version'.zip'
 Write-Host $PackagedRelease
 
 
