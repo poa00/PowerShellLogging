@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          path: 
 
       - name: build
         id: build_job
@@ -26,8 +27,8 @@ jobs:
         run: |
           $VersionPrefix = "1.4.0"
           $VersionSuffix = "rc1-00001"
-          $OutputDirectory = New-Item -Path $env:RUNNER_TEMP -Name "v1.4.0" -ItemType directory  
-          Copy-Item -Path "D:\a\PowerShellLogging\PowerShellLogging\Module\PowerShellLogging" -Destination $OutputDirectory -Recurse -Force          
+          $OutputDirectory = (New-Item -Path $env:GITHUB_WORKSPACE -Name "v1.4.0" -ItemType directory) 
+          Copy-Item -Path D:\a\PowerShellLogging\PowerShellLogging\Module\PowerShellLogging -Destination $OutputDirectory -Recurse -Force          
           Set-Content $OutputDirectory\PowerShellLogging.psd1 (
             (Get-Content $OutputDirectory\PowerShellLogging.psd1) -replace
             "(ModuleVersion\s+=\s+)'.*'", "`$1'$VersionPrefix'" -replace
