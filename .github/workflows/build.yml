@@ -6,27 +6,33 @@ jobs:
   build:
     name: BuildModule
     runs-on: windows-latest
-    
+      
     steps:
       - name: Checkout-repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
         
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v2.0.1
-        with:
-          versionSpec: '6.x'      
+      #- name: Install GitVersion
+      #  uses: gittools/actions/gitversion/setup@v2.0.1
+      #  with:
+      #    versionSpec: '6.x'      
 
-      - name: script
+      - name: build-script
+        id: buildjob
+        env:
+          ver: 1.40
         shell: pwsh
-        run: .\Build -Version $(dotnet-gitversion -showvariable SemVer)
-
-      - name: release 
-        uses: actions/upload-artifact@v4
+        run: |
+          .\Build -Version ${env:ver}
+          $name = ${ver}.zip
+          echo "::set-output name=archName:::$name
+          
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          path: Module/PowerShellLogging/*.zip
-          tag: ${{ github.ref }}
+          file: ${{ steps.buildjob.outputs.archName}}
+          tag: ${env:ver}
           overwrite: true
           file_glob: true
