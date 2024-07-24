@@ -26,7 +26,7 @@ jobs:
         run: |
           .\Build -Version ${env:ver}
           $name = ${ver}.zip
-          echo "::set-output name=archName:::$name
+          echo "::set-output name=archName:::$name"
           
       - name: Release
         uses: softprops/action-gh-release@v2
