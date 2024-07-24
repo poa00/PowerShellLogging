@@ -4,7 +4,7 @@ param(
     $Version = $(gitversion -showvariable nugetversion),
 
     # The output folder (defaults to the version number)
-    $OutputDirectory = $("$PSScriptRoot\$(($Version -split '[-+]',2)[0])"),
+    $OutputDirectory = $("$PSScriptRoot\$(($Version -split '[-+]',2)[0])")
     Write-Host "$OutputDirectory"
     
     # If set, removes the output folder without prompting!
