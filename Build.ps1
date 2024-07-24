@@ -28,7 +28,4 @@ Set-Content $OutputDirectory\PowerShellLogging.psd1 (
 dotnet build -c Release -p:VersionPrefix=$VersionPrefix -p:VersionSuffix=$VersionSuffix
 
 Get-ChildItem bin\Release -Recurse -filter *.dll | Move-Item -Destination $OutputDirectory
-$PackagedRelease = Compress-Archive -Path $OutputDirectory\ $version'.zip'
-Write-Host $PackagedRelease
-
-
+Compress-Archive -Path $OutputDirectory\ $version'.zip'
